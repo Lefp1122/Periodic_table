@@ -29,6 +29,10 @@ if [ $# -eq 0 ]
         if [[ -z $NAME_VERIFY ]]
           then 
           echo "I could not find that element in the database."
+
+          else 
+
+          ELEMENT_DATA=$($PSQL " select 
         fi
       fi
 
