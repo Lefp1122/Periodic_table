@@ -9,26 +9,35 @@ if [ $# -eq 0 ]
 
     else
    
-  
-   #Verify if it is an Atomic number.
-    ATOMIC_NUMBER_VERIFY=$($PSQL "Select name from elements where atomic_number = $1 ")
-
-   #If not an Atomic NUmber
-    if [[ -z $ATOMIC_NUMBER_VERIFY ]]
+   #if argument is a number
+   if [[ ! $1 =~ ^[0-9]+$ ]]
       then
 
-  
       #Verify if it is a Symbol
       SYMBOL_VERIFY=$($PSQL "Select name from elements where symbol = '$1' ")
 
       echo $SYMBOL_VERIFY
       #iF NOT A SYMBOL
       if [[ -z $SYMBOL_VERIFY ]]
-      then
+        then
       
-      echo " Not"
+        echo " Not"
 
       fi
+
+    else
+  
+      #Verify if it is an Atomic number.
+      ATOMIC_NUMBER_VERIFY=$($PSQL "Select name from elements where atomic_number = $1 ")
+      
+      
+      #If not an Atomic NUmber
+      if [[ -z $ATOMIC_NUMBER_VERIFY ]]
+        then
+
+        echo "I could not find that element in the database."
+      fi
+      
       
 
 
