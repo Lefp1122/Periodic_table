@@ -21,8 +21,15 @@ if [ $# -eq 0 ]
       if [[ -z $SYMBOL_VERIFY ]]
         then
       
-        echo " Not"
+        #VERIFY if it is an element name
+        NAME_VERIFY=$($PSQL "Select symbol from elements where name = '$1' ") 
 
+        echo $NAME_VERIFY
+
+        if [[ -z $NAME_VERIFY ]]
+          then 
+          echo "I could not find that element in the database."
+        fi
       fi
 
     else
