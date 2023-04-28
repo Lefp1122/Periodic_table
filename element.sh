@@ -36,12 +36,23 @@ if [ $# -eq 0 ]
 
           echo "$ELEMENT_DATA" | while IFS==\| read ATOMIC_NUMBER NAME SYMBOL TYPE ATOMIC_MASS MELTING_POINT BOILING_POINT
          do
-          echo "$ATOMIC_NUMBER  $NAME $SYMBOL $TYPE  $ATOMIC_MASS  $MELTING_POINT  $BOILING_POINT"
+
+          echo "The element with atomic number $ATOMIC_NUMBER is $NAME ($SYMBOL). It's a $TYPE, with a mass of $ATOMIC_MASS amu. $NAME has a melting point of $MELTING_POINT celsius and a boiling point of $BOILING_POINT celsius."
          
          done
         
         fi
 
+        else 
+
+          ELEMENT_DATA=$($PSQL "Select atomic_number, name, symbol, type, atomic_mass, melting_point_celsius, boiling_point_celsius  from properties as a inner join elements as b using( atomic_number) inner join types as c using( type_id) where symbol = '$1';")
+
+          echo "$ELEMENT_DATA" | while IFS==\| read ATOMIC_NUMBER NAME SYMBOL TYPE ATOMIC_MASS MELTING_POINT BOILING_POINT
+         do
+
+          echo "The element with atomic number $ATOMIC_NUMBER is $NAME ($SYMBOL). It's a $TYPE, with a mass of $ATOMIC_MASS amu. $NAME has a melting point of $MELTING_POINT celsius and a boiling point of $BOILING_POINT celsius."
+         
+         done
       
 
         
@@ -58,6 +69,18 @@ if [ $# -eq 0 ]
         then
 
         echo "I could not find that element in the database."
+
+        else
+      
+
+          ELEMENT_DATA=$($PSQL "Select atomic_number, name, symbol, type, atomic_mass, melting_point_celsius, boiling_point_celsius  from properties as a inner join elements as b using( atomic_number) inner join types as c using( type_id) where atomic_number = $1;")
+
+          echo "$ELEMENT_DATA" | while IFS==\| read ATOMIC_NUMBER NAME SYMBOL TYPE ATOMIC_MASS MELTING_POINT BOILING_POINT
+         do
+
+          echo "The element with atomic number $ATOMIC_NUMBER is $NAME ($SYMBOL). It's a $TYPE, with a mass of $ATOMIC_MASS amu. $NAME has a melting point of $MELTING_POINT celsius and a boiling point of $BOILING_POINT celsius."
+         
+         done
       fi
       
       
