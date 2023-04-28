@@ -24,7 +24,7 @@ if [ $# -eq 0 ]
         #VERIFY if it is an element name
         NAME_VERIFY=$($PSQL "Select symbol from elements where name = '$1' ") 
 
-        echo $NAME_VERIFY
+
 
         if [[ -z $NAME_VERIFY ]]
           then 
@@ -32,8 +32,19 @@ if [ $# -eq 0 ]
 
           else 
 
-          ELEMENT_DATA=$($PSQL " select 
+          ELEMENT_DATA=$($PSQL "Select atomic_number, name, symbol, type, atomic_mass, melting_point_celsius, boiling_point_celsius  from properties as a inner join elements as b using( atomic_number) inner join types as c using( type_id) where b.name = '$1';")
+
+          echo "$ELEMENT_DATA" | while read ATOMIC_NUMBER BAR NAME BAR SYMBOL BAR TYPE BAR ATOMIC_MASS BAR MELTING_POINT BAR BOILING_POINT
+         do
+          echo "$ATOMIC_NUMBER  $NAME $SYMBOL  $TYPE  $ATOMIC_MASS  $MELTING_POINT  $BOILING_POINT"
+         
+         done
+        
         fi
+
+      
+
+        
       fi
 
     else
