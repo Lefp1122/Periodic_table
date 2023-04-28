@@ -14,7 +14,7 @@ if [ $# -eq 0 ]
       then
 
       #Verify if it is a Symbol
-      ELEMENT_DATA=$($PSQL "Select atomic_number, name, symbol, type, atomic_mass, melting_point_celsius, boiling_point_celsius  from properties as a inner join elements as b using( atomic_number) inner join types as c using( type_id) where name = '$1' or symbol = '$1';")
+      ELEMENT_DATA=$($PSQL "Select atomic_number, name, symbol, type, atomic_mass, melting_point_celsius, boiling_point_celsius  from properties as a inner join elements as b using( atomic_number) inner join types as c using( type_id) where name ilike '$1' or symbol ilike '$1';")
     
       #iF NOT available
       if [[ -z $ELEMENT_DATA ]]
